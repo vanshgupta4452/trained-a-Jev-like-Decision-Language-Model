@@ -35,7 +35,7 @@ State + task instruction + question + choices
        Scores → selected decision
 ```
 
-The attention mask gives each option access to the question and its own tokens, while preventing it from reading the other options. The answer segment follows all choices and can attend to the full preceding prompt. See [`arch.ipynb`](arch.ipynb) and the diagrams in [`assets/`](assets/) for the walkthrough.
+The attention mask gives each option access to the question and its own tokens, while preventing it from reading the other options. The answer segment follows all choices and can attend to the full preceding prompt. See [`arch.ipynb`](arch.ipynb) for a concise architecture demonstration.
 
 ## Repository guide
 
@@ -53,8 +53,6 @@ The attention mask gives each option access to the question and its own tokens, 
 
 - **Backbone:** [`Qwen/Qwen3-0.6B`](https://huggingface.co/Qwen/Qwen3-0.6B)
 - **Dataset:** [`avbiswas/bev-decision-150K`](https://huggingface.co/datasets/avbiswas/bev-decision-150K)
-- **Reference walkthrough:** [Training JEV networks from Qwen](https://youtu.be/sF3CNPbWA8o)
-- **Original architecture livestream:** [Architecture walkthrough](https://youtube.com/live/AzxoU7kxjig)
 
 The dataset is downloaded automatically on the first run. Please consult the linked model, dataset, and original repository for their respective licenses and attribution requirements.
 
