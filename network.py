@@ -51,7 +51,7 @@ class AttentionBlock(nn.Module):
 
 
 class ChoiceHead(nn.Module):
-    """Runs self-attention over [task token, choice embeddings..., answer embedding] and scores each choice."""
+    """Refine task, choice, and answer representations, then produce one score per choice."""
 
     def __init__(self, hidden_dim, new_dim, num_layers, num_task_types):
         super().__init__()
@@ -77,7 +77,7 @@ class ChoiceHead(nn.Module):
             x = layer(x, padding_mask)
         x = self.final_norm(x)
 
-        # Bilinear score between the answer slot and every choice slot -> works for any number of choices
+        # Compare the answer representation with each choice; masked padding never receives a score.
         answer = self.answer_proj(x[:, -1])        # [B, D]
         choices = self.choice_proj(x[:, 1:-1])     # [B, C, D]
         logits = torch.einsum("bd,bcd->bc", [answer, choices])/math.sqrt(self.new_dim)

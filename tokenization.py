@@ -43,6 +43,7 @@ def tokenize_prompt(question,choices):
 
 
 def generate_position_ids(span):
+    """Give each choice the same position range so option order adds no positional bias."""
     position_ids = []
 
     start_idx = 0
@@ -67,6 +68,7 @@ def generate_position_ids(span):
 
 
 def get_attention_mask(span):
+    """Allow choice tokens to see the question and their own choice, but not other choices."""
     L = span["answer_end_idx"] + 1
     attention_mask = torch.zeros((L, L))
 
@@ -98,7 +100,7 @@ def get_attention_mask(span):
     # Choice tokens look at question tokens
     attention_mask[question_len:, :question_len] = 1
 
-    # Answer tokens looks back at everything in the past
+    # The answer segment follows all choices, so it can read the full preceding prompt.
     answer_tokens_begin = choice_spans[-1][1] + 1
     attention_mask[answer_tokens_begin:, :answer_tokens_begin] = 1
     attention_mask[answer_tokens_begin:, answer_tokens_begin:] = torch.tril(torch.ones(L - answer_tokens_begin, L - answer_tokens_begin))
@@ -126,6 +128,7 @@ def build_question(state, instructions, task_type, max_state_tokens):
 
 
 def encode_example(state, instructions, choices, task_type, max_state_tokens, max_choice_tokens):
+    """Encode one decision example and return the token positions consumed by the choice head."""
     question = build_question(state, instructions, task_type, max_state_tokens)
     choices = [truncate(choice, max_choice_tokens) for choice in choices]
 
