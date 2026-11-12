@@ -2,7 +2,7 @@
 
 **Course revision and training pipeline by Vansh Gupta**
 
-This repository explores training a language model to make structured decisions over a state and a set of candidate answers. It builds on the BEV/JEV decision-model walkthrough and implementation by [Neural Breakdown with AVB](https://github.com/avbiswas/bev-train), with the goal of understanding and running the training workflow as a course revision.
+This repository explores training a language model to make structured decisions over a state and a set of candidate answers. It builds on the BEV/JEV decision-model walkthrough and implementation by Neural Breakdown with AVB, with the goal of understanding and running the training workflow as a course revision.
 
 The model supports three task types: selecting an option, answering yes/no, and choosing a score from an ordered scale. A Qwen3-0.6B backbone encodes the prompt; a small attention-based head then scores the available choices. LoRA can optionally adapt selected backbone layers.
 
